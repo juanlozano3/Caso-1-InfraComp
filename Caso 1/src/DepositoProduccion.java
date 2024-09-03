@@ -22,7 +22,8 @@ public class DepositoProduccion {
         productos.remove(0);
         return prod;
     }
-    public Boolean vacio(){
+    
+    public Boolean conProductos(){
         return almacenados > 0;
     }
     

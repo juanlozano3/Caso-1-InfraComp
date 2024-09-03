@@ -9,9 +9,11 @@ public class OperarioInterno {
         this.cintaTransportadora = cintaTransportadora;
     }
 
-    public void depProd_cinta(){
-        while(depositoProduccion.vacio()){
-            Producto producto = depositoProduccion.retirar();       
+    public synchronized void depProd_cinta(){
+        while(depositoProduccion.conProductos()){
+            Producto producto = depositoProduccion.retirar();
+            
         }
     }
+
 }
