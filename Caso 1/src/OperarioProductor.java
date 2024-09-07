@@ -1,38 +1,36 @@
-public class OperarioProductor implements Runnable {
+public class OperarioProductor extends Thread{
     private String tipo;
-    private DepositoProduccion depositoProduccion;
-    private int cantidad;
+    private static DepositoProduccion depositoProduccion;
+    private int numProductos;
+    private int id;
 
-    public OperarioProductor(String tipo, DepositoProduccion depositoProduccion, int cantidad) {
+    public OperarioProductor(String tipo, DepositoProduccion depositoProduccion, int numProductos, int pid) {
         this.tipo = tipo;
         this.depositoProduccion = depositoProduccion;
-        this.cantidad = cantidad;
+        this.numProductos = numProductos;
+        this.id = pid;
     }
 
     @Override
     public void run() {
-        for(int i = 0; i <= cantidad; i++){
+        System.out.println("Operario Productor " + this.id +" comenzó a producir " + tipo);
+        for(int i = 0; i <= numProductos; i++){
             Producto producto = producir();
             almacenar(producto);
+            System.out.println("Operario Productor " + this.id +" produjo " + tipo);
         }
         // Crear producto tipo FIN_A o FIN_B
-        Producto productoFin = new Producto(tipo.equals("A") ? "FIN_A" : "FIN_B");
+        Producto productoFin = new Producto(tipo.equals("A") ? "fin_A" : "fin_B");
         almacenar(productoFin);  
-        System.out.println("Operario Productor terminó de producir " + tipo);
+        System.out.println("Operario Productor " + this.id +"terminó de producir " + tipo);
     }
     
     public synchronized Producto producir(){
         return new Producto(tipo);
     }
 
-    public synchronized void almacenar(Producto producto){
-        while(depositoProduccion.darLleno()){
-            try {
-                wait();
-            } catch (InterruptedException e) {}
-        }
+    public void almacenar(Producto producto){
         depositoProduccion.almacenar(producto);
-        notifyAll();
     }
 
 }
