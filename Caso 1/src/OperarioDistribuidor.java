@@ -26,7 +26,7 @@ public class OperarioDistribuidor extends Thread {
                 System.out.println("Operario Distribuidor " + this.id + " comenzó a distribuir " + tipo);
                 Producto productoExtraido = depositoDistribucion.retirar();
                 System.out.println("Operario Distribuidor " + this.id + " retiro del deposito de distribucion " + tipo);
-                if (productoExtraido.getTipo().equals("fin_A") || productoExtraido.getTipo().equals("fin_B")) {
+                if (productoExtraido.getTipo().equals("fin_" + tipo)) {
                     enOperacion = false;
                     System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
                 }

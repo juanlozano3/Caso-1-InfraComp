@@ -30,6 +30,7 @@ public class DepositoProduccion {
 
 
     public synchronized Producto retirar(){
+        System.out.println("En metodo RETIRAR almacenados: " + almacenados + " productos");
         while (almacenados == 0) {
             try {
                 this.wait();
@@ -38,16 +39,17 @@ public class DepositoProduccion {
             }
         }
 
-        Producto prod = productos.get(almacenados-1);
-        productos.remove(almacenados-1);
+        Producto prod = productos.get(0);
+        productos.remove(0);
         almacenados--;
+        System.out.println("Termino Retirar, Almacenados en: " + almacenados);
         this.notifyAll();
         return prod;
     }
     
 
 
-    public Boolean conProductos(){
+    public synchronized Boolean conProductos(){
         System.out.println("Deposito de Produccion tiene " + almacenados + " productos");
         return almacenados > 0;
     }

@@ -29,6 +29,7 @@ public class DepositoDistribucion {
     }
 
     public synchronized Producto retirar() {
+        System.out.println("En Metodo Retirar Deposito Distribucion, Almacenados: " + Almacenados);
         while (Almacenados == 0) {
             try {
                 this.wait();
@@ -36,8 +37,8 @@ public class DepositoDistribucion {
                 e.printStackTrace();
             }
         }
-        Producto producto = productos.get(Almacenados - 1);
-        productos.remove(Almacenados - 1);
+        Producto producto = productos.get(0);
+        productos.remove(0);
         Almacenados--;
         this.notifyAll();
         return producto;
@@ -47,7 +48,8 @@ public class DepositoDistribucion {
         return productos;
     }
 
-    public int getAlmacenados() {
+    public synchronized int getAlmacenados() {
+        //System.out.println("Deposito de Distribucion tiene " + Almacenados + " productos");
         return Almacenados;
     }
 }
