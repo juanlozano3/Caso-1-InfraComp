@@ -13,16 +13,22 @@ public class DepositoProduccion {
     public Boolean darLleno() {
         return almacenados == capDepProd;
     }
+
+
     public synchronized void almacenar(Producto producto) {
         while(darLleno()){
             try {
                 this.wait();
             } catch (InterruptedException e) {}
         }
-        almacenados++;
         productos.add(producto);
+        almacenados++;
+        System.out.println("Almacenados en: " + almacenados);
+        System.out.println("lista:" + productos);
         this.notifyAll();
     }
+
+
     public synchronized Producto retirar(){
         while (almacenados == 0) {
             try {
@@ -31,14 +37,18 @@ public class DepositoProduccion {
                 e.printStackTrace();
             }
         }
+
+        Producto prod = productos.get(almacenados-1);
+        productos.remove(almacenados-1);
         almacenados--;
-        Producto prod = productos.get(almacenados);
-        productos.remove(almacenados);
         this.notifyAll();
         return prod;
     }
     
+
+
     public Boolean conProductos(){
+        System.out.println("Deposito de Produccion tiene " + almacenados + " productos");
         return almacenados > 0;
     }
     

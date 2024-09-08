@@ -24,7 +24,7 @@ public class OperarioInternoRetirar extends Thread{
         }
     }
 
-    public synchronized void cinta_depositoDist(){
+    public void cinta_depositoDist(){
         System.out.println("Operario Interno " +this.id + " de distribución comenzó a retirar de la cinta");
         Producto producto = cintaTransportadora.retirar();
         depositoDistribucion.almacenar(producto);

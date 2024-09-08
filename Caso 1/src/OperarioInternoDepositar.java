@@ -23,7 +23,7 @@ public class OperarioInternoDepositar extends Thread{
         }
     }
 
-    public synchronized void depProd_cinta(){
+    public void depProd_cinta(){
         while(depositoProduccion.conProductos()){
             System.out.println("Operario Interno " + this.id + " de producción comenzó a retirar de produccion y a depositar en la cinta");
             Producto producto = depositoProduccion.retirar();

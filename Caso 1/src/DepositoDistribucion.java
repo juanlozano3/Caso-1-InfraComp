@@ -19,8 +19,8 @@ public class DepositoDistribucion {
                 e.printStackTrace();
             }
         }
-        Almacenados++;
         productos.add(producto);
+        Almacenados++;
         this.notifyAll();
     }
 

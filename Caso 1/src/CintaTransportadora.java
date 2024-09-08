@@ -1,6 +1,6 @@
 public class CintaTransportadora {
     private Integer enCinta;
-    private Producto productoEnCinta;
+    private static Producto productoEnCinta;
 
     public CintaTransportadora() {
         this.enCinta = 0;
@@ -8,11 +8,7 @@ public class CintaTransportadora {
 
     public synchronized void transportar(Producto producto) {
         while (enCinta == 1) {
-            try {
-                this.wait(); //YIELD()
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.yield();
         }
         enCinta = 1;
         productoEnCinta = producto;
@@ -21,14 +17,10 @@ public class CintaTransportadora {
     
     public synchronized Producto retirar() {
         while (enCinta == 0) {
-            try {
-                wait(); //YIELD()
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.yield();
         }
         enCinta = 0;
-        notifyAll();
+        this.notifyAll();
         return productoEnCinta;
 
     }
