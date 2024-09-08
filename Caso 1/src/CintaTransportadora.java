@@ -9,12 +9,11 @@ public class CintaTransportadora extends Thread {
     public synchronized void transportar(Producto producto) {
         System.out.println("Transportando producto: " + producto.getTipo() + ". En la cinta hay" + enCinta);
         while (enCinta == 1) {
-            // try {
-            //     wait(); //YIELD
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
-            Thread.yield();
+           try {
+               this.wait();
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
         }
         enCinta = 1;
         productoEnCinta = producto;
@@ -25,12 +24,11 @@ public class CintaTransportadora extends Thread {
     public synchronized Producto retirar() {
         System.out.println("Retirando producto de la cinta");
         while (enCinta == 0) {
-            // try {
-            //     wait(); //YIELD
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
-            Thread.yield();
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         enCinta = 0;
         this.notifyAll();

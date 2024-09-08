@@ -55,6 +55,20 @@ public class App {
         operarioDistribuidorB.start();
         operarioDistribuidorB2.start();
 
+        // Verificar estado del hilo después de iniciarlo
+        System.out.println("Estado del Operario Productor A: " + operarioProductorA.getState());
+        System.out.println("Estado del Operario Productor A2: " + operarioProductorA2.getState());
+        System.out.println("Estado del Operario Productor B: " + operarioProductorB.getState());
+        System.out.println("Estado del Operario Productor B2: " + operarioProductorB2.getState());
+
+        System.out.println("Estado del Operario Interno Depositar: " + operarioInternoDepositar.getState());
+        System.out.println("Estado del Operario Interno Retirar: " + operarioInternoRetirar.getState());
+
+        System.out.println("Estado del Operario Distribuidor A: " + operarioDistribuidorA.getState());
+        System.out.println("Estado del Operario Distribuidor A2: " + operarioDistribuidorA2.getState());
+        System.out.println("Estado del Operario Distribuidor B: " + operarioDistribuidorB.getState());
+        System.out.println("Estado del Operario Distribuidor B2: " + operarioDistribuidorB2.getState());
+
         }
 
 }
