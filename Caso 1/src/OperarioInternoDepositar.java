@@ -24,17 +24,12 @@ public class OperarioInternoDepositar extends Thread {
 
     public void depProd_cinta() {
         // Mientras haya productos en el depósito
-        while (depositoProduccion.conProductos()) {
+        while (enOperacion && depositoProduccion.conProductos()) {
             System.out.println("Operario Interno " + this.id + " de producción comenzó a retirar de produccion y a depositar en la cinta");
+
             Producto producto = depositoProduccion.retirar();
 
-            // Si no se puede retirar un producto, ceder el control a otros hilos
-            while (producto == null) {
-                System.out.println("Operario Interno " + this.id + " cediendo el control temporalmente con yield() debido a que no hay productos disponibles.");
-                Thread.yield(); // Ceder el control temporalmente
-                producto = depositoProduccion.retirar(); // Intentar retirar nuevamente
-            }
-
+            // Transportar producto a la cinta
             cintaTransportadora.transportar(producto);
             System.out.println("Operario Interno " + this.id + " de producción terminó de depositar en la cinta");
 
@@ -49,13 +44,17 @@ public class OperarioInternoDepositar extends Thread {
             if (marcadosFinA == 2 && marcadosFinB == 2) {
                 enOperacion = false;
                 System.out.println("Operario Interno " + this.id + " de producción terminó su operación.");
+                break;
             }
         }
 
         // Si no hay productos disponibles
-        if (!depositoProduccion.conProductos()) {
+        if (!depositoProduccion.conProductos() && enOperacion) {
             System.out.println("Operario Interno " + this.id + " no encontró productos, cediendo el control temporalmente.");
-            Thread.yield(); // Ceder el control temporalmente si no hay productos
+            Thread.yield();  // Ceder el control temporalmente si no hay productos
         }
     }
 }
+
+
+

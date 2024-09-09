@@ -1,10 +1,10 @@
 public class OperarioInternoRetirar extends Thread {
-    private static DepositoDistribucion depositoDistribucion;
-    private static CintaTransportadora cintaTransportadora;
+    private static DepositoDistribucion depositoDistribucion;  
+    private static CintaTransportadora cintaTransportadora;  
     private int marcadosFinA;
     private int marcadosFinB;
     private boolean enOperacion;
-    private int id;
+    private final int id;
 
     public OperarioInternoRetirar(DepositoDistribucion depositoDistribucion, CintaTransportadora cintaTransportadora, int pid) {
         this.depositoDistribucion = depositoDistribucion;
@@ -25,16 +25,10 @@ public class OperarioInternoRetirar extends Thread {
     public void cinta_depositoDist() {
         System.out.println("Operario Interno " + this.id + " de distribución comenzó a retirar de la cinta");
 
-        // Intentar retirar el producto de la cinta
-        Producto producto = cintaTransportadora.retirar();
+        // Retirar el producto de la cinta
+        Producto producto = cintaTransportadora.retirar();  // Este método espera hasta que haya un producto
 
-        // Si no hay producto disponible, ceder el control temporalmente
-        while (producto == null) {
-            System.out.println("Operario Interno " + this.id + " cediendo el control temporalmente con yield() porque no hay productos en la cinta.");
-            Thread.yield(); // Ceder el control temporalmente
-            producto = cintaTransportadora.retirar(); // Intentar retirar nuevamente
-        }
-
+        // Almacenar el producto en el depósito de distribución
         depositoDistribucion.almacenar(producto);
         System.out.println("Operario Interno " + this.id + " de distribución terminó de retirar de la cinta y almacenó en el depósito de distribución");
 

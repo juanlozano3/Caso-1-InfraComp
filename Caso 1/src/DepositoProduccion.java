@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 public class DepositoProduccion {
-    private int almacenados;
+    //private int almacenados;
     private int capDepProd;
     private ArrayList <Producto> productos;
 
-    public DepositoProduccion(int Almacenados, int capDepProd) {
-        this.almacenados = 0;
+    public DepositoProduccion(int capDepProd) {
+        //this.almacenados = 0;
         this.capDepProd = capDepProd;
         this.productos = new ArrayList<Producto>();
     }
 
-    public Boolean darLleno() {
-        return almacenados == capDepProd;
+    public synchronized Boolean darLleno() {
+        return productos.size() == capDepProd;
     }
 
 
@@ -19,30 +19,33 @@ public class DepositoProduccion {
         while(darLleno()){
             try {
                 this.wait();
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante almacenar");
+            }
         }
         productos.add(producto);
-        almacenados++;
-        System.out.println("Almacenados en: " + almacenados);
+        System.out.println("Almacenados en: " + productos.size());
         System.out.println("lista:" + productos);
         this.notifyAll();
     }
 
 
     public synchronized Producto retirar(){
-        System.out.println("En metodo RETIRAR almacenados: " + almacenados + " productos");
-        while (almacenados == 0) {
+        System.out.println("En metodo RETIRAR almacenados: " + productos.size() + " productos");
+        while (productos.isEmpty()) {
             try {
                 this.wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante almacenar");
             }
         }
 
         Producto prod = productos.get(0);
         productos.remove(0);
-        almacenados--;
-        System.out.println("Termino Retirar, Almacenados en: " + almacenados);
+        //almacenados--;
+        System.out.println("Termino Retirar, Almacenados en: " + productos.size());
         this.notifyAll();
         return prod;
     }
@@ -50,8 +53,8 @@ public class DepositoProduccion {
 
 
     public synchronized Boolean conProductos(){
-        System.out.println("Deposito de Produccion tiene " + almacenados + " productos");
-        return almacenados > 0;
+        System.out.println("Deposito de Produccion tiene " + productos + " productos");
+        return !productos.isEmpty();
     }
     
 }

@@ -1,55 +1,58 @@
 import java.util.ArrayList;
 
 public class DepositoDistribucion {
-    private int Almacenados;
-    private int capDepDist;
-    private ArrayList<Producto> productos;
+    private final int capDepDist;  // Capacidad máxima del depósito de distribución
+    private final ArrayList<Producto> productos;  // Lista de productos en el depósito
 
-    public DepositoDistribucion(int Almacenados, int capDepDist) {
-        this.Almacenados = 0;
+    public DepositoDistribucion(int capDepDist) {
         this.capDepDist = capDepDist;
-        this.productos = new ArrayList<Producto>();
+        this.productos = new ArrayList<>();
     }
 
+    // Método sincronizado para almacenar un producto en el depósito
     public synchronized void almacenar(Producto producto) {
-        while (Almacenados == capDepDist) {
+        while (productos.size() == capDepDist) {
             try {
-                this.wait();
+                this.wait();  // Espera hasta que haya espacio disponible en el depósito
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante almacenar en depósito de distribución");
             }
         }
-        productos.add(producto);
-        Almacenados++;
-        this.notifyAll();
+        productos.add(producto);  // Almacena el producto
+        System.out.println("Producto almacenado en depósito de distribución. Total almacenados: " + productos.size());
+        this.notifyAll();  // Notifica a los hilos en espera que hay espacio o productos disponibles
     }
 
-    public Boolean darLleno() {
-        return Almacenados == capDepDist;
+    // Método sincronizado para verificar si el depósito está lleno
+    public synchronized boolean darLleno() {
+        return productos.size() == capDepDist;
     }
 
+    // Método sincronizado para retirar un producto del depósito
     public synchronized Producto retirar() {
-        System.out.println("En Metodo Retirar Deposito Distribucion, Almacenados: " + Almacenados);
-        while (Almacenados == 0) {
+        System.out.println("En método RETIRAR de depósito de distribución. Almacenados: " + productos.size());
+        while (productos.isEmpty()) {
             try {
-                this.wait();
+                this.wait();  // Espera hasta que haya productos disponibles
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante retirar en depósito de distribución");
             }
         }
-        Producto producto = productos.get(0);
-        productos.remove(0);
-        Almacenados--;
-        this.notifyAll();
+        Producto producto = productos.remove(0);  // Retira el primer producto de la lista
+        System.out.println("Producto retirado de depósito de distribución. Total almacenados: " + productos.size());
+        this.notifyAll();  // Notifica a los hilos en espera que hay espacio disponible
         return producto;
     }
 
+    // Método para obtener la lista de productos
     public ArrayList<Producto> getProductos() {
         return productos;
     }
 
+    // Método sincronizado para obtener el número de productos almacenados
     public synchronized int getAlmacenados() {
-        //System.out.println("Deposito de Distribucion tiene " + Almacenados + " productos");
-        return Almacenados;
+        return productos.size();
     }
 }

@@ -1,9 +1,9 @@
 public class OperarioDistribuidor extends Thread {
-    private String tipo;
-    private static DepositoDistribucion depositoDistribucion;
-    private int numProductos;
+    private String tipo;  
+    private static DepositoDistribucion depositoDistribucion;  
+    private final int numProductos;
     private boolean enOperacion;
-    private int id;
+    private final int id;
 
     public OperarioDistribuidor(String tipo, DepositoDistribucion depositoDistribucion, int numProductos, int pid) {
         this.tipo = tipo;
@@ -21,16 +21,17 @@ public class OperarioDistribuidor extends Thread {
     }
 
     public void extraer() {
-        if (depositoDistribucion.getAlmacenados() > 0) {
-            if ((depositoDistribucion.getProductos().get(depositoDistribucion.getAlmacenados()-1)).getTipo().equals(tipo)|| (depositoDistribucion.getProductos().get(depositoDistribucion.getAlmacenados()-1)).getTipo().equals("fin_"+tipo)) {
-                System.out.println("Operario Distribuidor " + this.id + " comenzó a distribuir " + tipo);
-                Producto productoExtraido = depositoDistribucion.retirar();
-                System.out.println("Operario Distribuidor " + this.id + " retiro del deposito de distribucion " + tipo);
-                if (productoExtraido.getTipo().equals("fin_" + tipo)) {
-                    enOperacion = false;
-                    System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
-                }
-            }
+        Producto productoExtraido = depositoDistribucion.retirar();  // Retirar un producto del depósito
+
+        if (productoExtraido.getTipo().equals(tipo)) {
+            System.out.println("Operario Distribuidor " + this.id + " comenzó a distribuir " + tipo);
+            System.out.println("Operario Distribuidor " + this.id + " retiró del depósito de distribución " + tipo);
+        }
+
+        // Verificar si se ha encontrado el producto de terminación (FIN_A o FIN_B)
+        if (productoExtraido.getTipo().equals("fin_" + tipo)) {
+            enOperacion = false;
+            System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
         }
     }
 }
