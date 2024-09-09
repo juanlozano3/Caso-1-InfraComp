@@ -38,7 +38,7 @@ public class DepositoProduccion {
         productos.remove(0);
         //almacenados--;
         System.out.println("Termino Retirar, Almacenados en: " + productos.size());
-        System.out.println("Tipo prod retirado: " + prod.getTipo());
+        this.notifyAll();
         return prod;
     }
     
