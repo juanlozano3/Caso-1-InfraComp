@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class DepositoDistribucion {
@@ -11,11 +12,20 @@ public class DepositoDistribucion {
 
     // Método sincronizado para almacenar un producto en el depósito
     public synchronized void almacenar(Producto producto) {
+        while (productos.size() == capDepDist) {
+            try {
+                this.wait();  // Espera hasta que haya espacio disponible en el depósito
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante almacenar en depósito de distribución");
+            }
+        }
         productos.add(producto);  // Almacena el producto
         System.out.println("Producto almacenado en depósito de distribución. Total almacenados: " + productos.size());
+        this.notifyAll();  // Notifica a los hilos en espera que hay espacio o productos disponibles
     }
 
-  // Método sincronizado para verificar si el depósito está lleno
+    // Método sincronizado para verificar si el depósito está lleno
     public synchronized boolean darLleno() {
         return productos.size() == capDepDist;
     }

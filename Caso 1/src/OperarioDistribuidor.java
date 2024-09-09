@@ -22,12 +22,13 @@ public class OperarioDistribuidor extends Thread {
 
     public void extraer() {
         Producto productoExtraido = depositoDistribucion.retirar();  // Retirar un producto del depósito
-
+        //Tamañp de la lista de productos en el depósito de distribución
+        System.out.println("Tamaño de la lista de productos en el depósito de distribución: " + depositoDistribucion.getAlmacenados());
         if (productoExtraido.getTipo().equals(tipo)) {
             System.out.println("Operario Distribuidor " + this.id + " comenzó a distribuir " + tipo);
             System.out.println("Operario Distribuidor " + this.id + " retiró del depósito de distribución " + tipo);
         }
-
+        
         // Verificar si se ha encontrado el producto de terminación (FIN_A o FIN_B)
         if (productoExtraido.getTipo().equals("fin_" + tipo)) {
             enOperacion = false;
