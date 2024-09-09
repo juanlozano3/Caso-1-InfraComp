@@ -62,6 +62,7 @@ public class App {
         operarioDistribuidorB.join();
         operarioDistribuidorB2.join();
 
+
         // Confirmación de que todos los hilos han terminado
         System.out.println("Todos los operarios han terminado su trabajo.");
     }
