@@ -16,10 +16,11 @@ public class CintaTransportadora extends Thread {
             Thread.yield();  // Ceder el control temporalmente al sistema operativo
         }
         
-        enCinta = true;
         productoEnCinta = producto;
+        enCinta = true;
 
-        System.out.println("Producto en la cinta: " + productoEnCinta.getTipo());
+
+        //System.out.println("Producto en la cinta: " + productoEnCinta.getTipo());
     }
 
     // Método sincronizado para retirar un producto de la cinta
@@ -33,8 +34,8 @@ public class CintaTransportadora extends Thread {
         
         enCinta = false;
         Producto productoRetirado = productoEnCinta;
+        //System.out.println("Producto retirado de la cinta: " + productoRetirado.getTipo());
         productoEnCinta = null;  // Limpia la referencia al producto en la cinta
-        System.out.println("Producto retirado de la cinta: " + productoRetirado.getTipo());
         return productoRetirado;
     }
 }

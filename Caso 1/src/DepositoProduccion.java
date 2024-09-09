@@ -33,14 +33,6 @@ public class DepositoProduccion {
 
     public synchronized Producto retirar(){
         System.out.println("En metodo RETIRAR almacenados: " + productos.size() + " productos");
-        while (productos.isEmpty()) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
-                System.out.println("Hilo interrumpido durante almacenar");
-            }
-        }
 
         Producto prod = productos.get(0);
         productos.remove(0);

@@ -26,8 +26,12 @@ public class OperarioInternoRetirar extends Thread {
         System.out.println("Operario Interno " + this.id + " de distribución comenzó a retirar de la cinta");
 
         // Retirar el producto de la cinta
+        
         Producto producto = cintaTransportadora.retirar();  // Este método espera hasta que haya un producto
 
+        while (depositoDistribucion.getProductos().size() == depositoDistribucion.getCapDepDist()) {
+            Thread.yield();  // Cede el control temporalmente al sistema operativo
+        }
         // Almacenar el producto en el depósito de distribución
         depositoDistribucion.almacenar(producto);
         System.out.println("Operario Interno " + this.id + " de distribución terminó de retirar de la cinta y almacenó en el depósito de distribución");
