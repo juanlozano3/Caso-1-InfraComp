@@ -20,24 +20,13 @@ public class OperarioDistribuidor extends Thread {
         }
     }
 
-    public synchronized void extraer() {
-        while (depositoDistribucion.getProductos().isEmpty()) {
-            try {
-                System.out.println("Operario Distribuidor " + this.id + " esperando a que haya productos en el depósito de distribución");
-                this.wait();  // Espera hasta que haya productos disponibles
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
-                System.out.println("Hilo interrumpido durante retirar en depósito de distribución");
-            }
+    public void extraer() {
+        System.out.println("Operario Distribuidor " + this.id + " comenzó a extraer del depósito de distribución");
+        Producto productoExtraido = depositoDistribucion.retirar(tipo);  // Este método espera hasta que haya un producto
+        System.out.println("Operario Distribuidor " + this.id + " con tipo " + tipo + " terminó de extraer del depósito de distribución y obtuvo: " + productoExtraido.getTipo());
+        if (productoExtraido.getTipo().equals("fin_" + tipo)) {
+            enOperacion = false;
+            System.out.println("Operario Distribuidor " + this.id + " con tipo " + tipo + " terminó su operación.");
         }
-        if (depositoDistribucion.getProductos().get(0).getTipo().equals("fin_" + tipo) || depositoDistribucion.getProductos().get(0).getTipo().equals(tipo)) {
-            Producto productoExtraido = depositoDistribucion.retirar();  // Retirar un producto del depósito
-            if (productoExtraido.getTipo().equals("fin_" + tipo)) {
-                enOperacion = false;
-                System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
-            }
-        }
-        notifyAll();
-        
     }
 }
