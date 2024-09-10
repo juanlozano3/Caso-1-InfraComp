@@ -29,10 +29,10 @@ public class App {
         OperarioInternoCinta_distribucion operarioInternoRetirar = new OperarioInternoCinta_distribucion(depositoDistribucion, cintaTransportadora, 2);
 
         // Inicialización de operarios distribuidores
-        OperarioDistribuidor operarioDistribuidorA = new OperarioDistribuidor("A", depositoDistribucion, numProductos, 1);
-        OperarioDistribuidor operarioDistribuidorA2 = new OperarioDistribuidor("A", depositoDistribucion, numProductos, 2);
-        OperarioDistribuidor operarioDistribuidorB = new OperarioDistribuidor("B", depositoDistribucion, numProductos, 1);
-        OperarioDistribuidor operarioDistribuidorB2 = new OperarioDistribuidor("B", depositoDistribucion, numProductos, 2);
+        OperarioDistribuidor operarioDistribuidorA = new OperarioDistribuidor("A", depositoDistribucion, 1);
+        OperarioDistribuidor operarioDistribuidorA2 = new OperarioDistribuidor("A", depositoDistribucion, 2);
+        OperarioDistribuidor operarioDistribuidorB = new OperarioDistribuidor("B", depositoDistribucion, 1);
+        OperarioDistribuidor operarioDistribuidorB2 = new OperarioDistribuidor("B", depositoDistribucion, 2);
 
         // Iniciar los hilos de los operarios
         operarioProductorA.start();

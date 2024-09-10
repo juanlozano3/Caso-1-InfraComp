@@ -1,15 +1,13 @@
 public class OperarioDistribuidor extends Thread {
     private String tipo;  
     private static DepositoDistribucion depositoDistribucion;  
-    private final int numProductos;
     private boolean enOperacion;
     private final int id;
     private static int contador = 0;
 
-    public OperarioDistribuidor(String tipo, DepositoDistribucion depositoDistribucion, int numProductos, int pid) {
+    public OperarioDistribuidor(String tipo, DepositoDistribucion depositoDistribucion, int pid) {
         this.tipo = tipo;
         this.depositoDistribucion = depositoDistribucion;
-        this.numProductos = numProductos;
         this.enOperacion = true;
         this.id = pid;
     }
