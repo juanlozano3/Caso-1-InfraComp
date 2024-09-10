@@ -25,17 +25,16 @@ public class OperarioInternoDepositar extends Thread {
     public void depProd_cinta() {
         // Mientras haya productos en el depósito
         while (enOperacion) {
-            System.out.println("Operario Interno " + this.id + " de producción comenzó a retirar de produccion y a depositar en la cinta");
 
             while (!depositoProduccion.conProductos()) {
+                System.out.println("Operario Interno de Producción a Cinta esperando a que haya productos en el depósito de producción para retirar...");
                 Thread.yield();
+                System.out.println("Operario Interno de Producción a Cinta ya puede retirar del depósito de producción");
             }
             Producto producto = depositoProduccion.retirar();
-            System.out.println("Tipo prodsssss retirado: " + producto.getTipo());
 
             // Transportar producto a la cinta
             cintaTransportadora.transportar(producto);
-            System.out.println("Operario Interno " + this.id + " de producción terminó de depositar en la cinta");
 
             // Verificar el tipo de producto para marcar fin_A y fin_B
             if (producto.getTipo().equals("fin_A")) {

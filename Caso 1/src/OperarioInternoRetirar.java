@@ -23,18 +23,17 @@ public class OperarioInternoRetirar extends Thread {
     }
 
     public void cinta_depositoDist() {
-        System.out.println("Operario Interno " + this.id + " de distribución comenzó a retirar de la cinta");
-
         // Retirar el producto de la cinta
         
         Producto producto = cintaTransportadora.retirar();  // Este método espera hasta que haya un producto
 
         while (depositoDistribucion.getProductos().size() == depositoDistribucion.getCapDepDist()) {
+            System.out.println("Operario Interno de Cinta a Distribución esperando a que haya espacio en el depósito de distribución para almacenar...");
             Thread.yield();  // Cede el control temporalmente al sistema operativo
+            System.out.println("Operario Interno de Cinta a Distribución ya puede almacenar en el depósito de distribución...");
         }
         // Almacenar el producto en el depósito de distribución
         depositoDistribucion.almacenar(producto);
-        System.out.println("Operario Interno " + this.id + " de distribución terminó de retirar de la cinta y almacenó en el depósito de distribución");
 
         // Verificar el tipo de producto y contar fin_A y fin_B
         if (producto.getTipo().equals("fin_A")) {

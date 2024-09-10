@@ -64,6 +64,22 @@ public class App {
 
 
         // Confirmación de que todos los hilos han terminado
-        System.out.println("Todos los operarios han terminado su trabajo.");
+        //Estado de todos los Threads
+        System.out.println("Operario Productor A 1: " + operarioProductorA.getState());
+        System.out.println("Operario Productor A 2: " + operarioProductorA2.getState());
+        System.out.println("Operario Productor B 1: " + operarioProductorB.getState());
+        System.out.println("Operario Productor B 2: " + operarioProductorB2.getState());
+        System.out.println("Operario Interno Depositar: " + operarioInternoDepositar.getState());
+        System.out.println("Operario Interno Retirar: " + operarioInternoRetirar.getState());
+        System.out.println("Operario Distribuidor A 1: " + operarioDistribuidorA.getState());
+        System.out.println("Operario Distribuidor A 2: " + operarioDistribuidorA2.getState());
+        System.out.println("Operario Distribuidor B 1: " + operarioDistribuidorB.getState());
+        System.out.println("Operario Distribuidor B 2: " + operarioDistribuidorB2.getState());
+
+        // Imprimir el número total de productos producidos
+        System.out.println("Número total de productos producidos: " + OperarioProductor.getCantidadProducidos() + " Se incluyen los 4 productos de fin de producción");
+        // Imprimir el número total de productos distribuidos
+        System.out.println("Número total de productos distribuidos: " + OperarioDistribuidor.getContador());
+        System.out.println("Operación finalizada");
     }
 }

@@ -13,7 +13,7 @@ public class DepositoDistribucion {
     // Método sincronizado para almacenar un producto en el depósito
     public synchronized void almacenar(Producto producto) {
         productos.add(producto);  // Almacena el producto
-        System.out.println("Producto almacenado en depósito de distribución. Total almacenados: " + productos.size());
+        System.out.println("Tipo del producto almacenado en depósito de distribución: " + producto.getTipo() + " Total almacenados: " + productos.size());
         this.notifyAll();  // Notifica a los hilos en espera que hay productos disponibles
     }
 
@@ -27,8 +27,9 @@ public class DepositoDistribucion {
         //System.out.println("En método RETIRAR de depósito de distribución. Almacenados: " + productos.size());
         while (productos.isEmpty() || !productos.get(0).getTipo().contains(tipo)) {
             try {
-                System.out.println("Depósito de distribución vacío o no es el tipo. Esperando a que haya productos...");
+                System.out.println("Depósito de distribución vacío o el producto no es el tipo. Esperando a que haya productos...");
                 this.wait();  // Espera hasta que haya productos disponibles
+                System.out.println("Hilo despertado para retirar del depósito de distribución");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();  // Restaura el estado de interrupción
                 System.out.println("Hilo interrumpido durante retirar en depósito de distribución");
@@ -36,7 +37,7 @@ public class DepositoDistribucion {
         }
         
         Producto producto = productos.remove(0);  // Retira el primer producto de la lista
-        System.out.println("Producto retirado de depósito de distribución. Total almacenados: " + productos.size());
+        System.out.println("Tipo del Producto retirado de depósito de distribución: " + producto.getTipo() + " Total almacenados: " + productos.size());
         this.notifyAll();  // Notifica a los hilos en espera que hay espacio disponible
         return producto;
     }

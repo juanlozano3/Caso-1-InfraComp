@@ -18,27 +18,26 @@ public class DepositoProduccion {
     public synchronized void almacenar(Producto producto) {
         while(darLleno()){
             try {
+                System.out.println("Deposito de Produccion lleno, esperando a que se retiren productos");
                 this.wait();
+                System.out.println("Hilo despertado para almacenar en Deposito de Produccion");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();  // Restaura el estado de interrupción
                 System.out.println("Hilo interrumpido durante almacenar");
             }
         }
         productos.add(producto);
-        System.out.println("Almacenados en: " + productos.size());
+        System.out.println("Cantidad de productos almacenados: " + productos.size());
         System.out.println("lista:" + productos);
         this.notifyAll();
     }
 
 
     public synchronized Producto retirar(){
-        System.out.println("En metodo RETIRAR almacenados: " + productos.size() + " productos");
 
         Producto prod = productos.get(0);
         productos.remove(0);
-        //almacenados--;
-        System.out.println("Termino Retirar, Almacenados en: " + productos.size());
-        System.out.println("Tipo prod retirado: " + prod.getTipo());
+        System.out.println("Se retiro el producto: " + prod.getTipo() + ", cantidad de productos Almacenados en: " + productos.size());
         this.notifyAll();
         return prod;
     }
@@ -46,7 +45,6 @@ public class DepositoProduccion {
 
 
     public synchronized Boolean conProductos(){
-        System.out.println("Deposito de Produccion tiene " + productos + " productos");
         return !productos.isEmpty();
     }
     

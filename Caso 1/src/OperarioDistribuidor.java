@@ -4,6 +4,7 @@ public class OperarioDistribuidor extends Thread {
     private final int numProductos;
     private boolean enOperacion;
     private final int id;
+    private static int contador = 0;
 
     public OperarioDistribuidor(String tipo, DepositoDistribucion depositoDistribucion, int numProductos, int pid) {
         this.tipo = tipo;
@@ -21,12 +22,15 @@ public class OperarioDistribuidor extends Thread {
     }
 
     public void extraer() {
-        System.out.println("Operario Distribuidor " + this.id + " comenzó a extraer del depósito de distribución");
         Producto productoExtraido = depositoDistribucion.retirar(tipo);  // Este método espera hasta que haya un producto
-        System.out.println("Operario Distribuidor " + this.id + " con tipo " + tipo + " terminó de extraer del depósito de distribución y obtuvo: " + productoExtraido.getTipo());
+        contador++;
         if (productoExtraido.getTipo().equals("fin_" + tipo)) {
             enOperacion = false;
             System.out.println("Operario Distribuidor " + this.id + " con tipo " + tipo + " terminó su operación.");
         }
+    }
+
+    public static int getContador() {
+        return contador;
     }
 }
