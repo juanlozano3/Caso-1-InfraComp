@@ -25,8 +25,8 @@ public class App {
         OperarioProductor operarioProductorB2 = new OperarioProductor("B", depositoProduccion, numProductos, 2);
 
         // Inicialización de operarios internos
-        OperarioInternoDepositar operarioInternoDepositar = new OperarioInternoDepositar(depositoProduccion, cintaTransportadora, 1);
-        OperarioInternoRetirar operarioInternoRetirar = new OperarioInternoRetirar(depositoDistribucion, cintaTransportadora, 2);
+        OperarioInternoProduccion_cinta operarioInternoDepositar = new OperarioInternoProduccion_cinta(depositoProduccion, cintaTransportadora, 1);
+        OperarioInternoCinta_distribucion operarioInternoRetirar = new OperarioInternoCinta_distribucion(depositoDistribucion, cintaTransportadora, 2);
 
         // Inicialización de operarios distribuidores
         OperarioDistribuidor operarioDistribuidorA = new OperarioDistribuidor("A", depositoDistribucion, numProductos, 1);

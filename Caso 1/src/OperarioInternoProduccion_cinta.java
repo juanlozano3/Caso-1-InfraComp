@@ -1,4 +1,4 @@
-public class OperarioInternoDepositar extends Thread {
+public class OperarioInternoProduccion_cinta extends Thread {
     private static DepositoProduccion depositoProduccion;
     private static CintaTransportadora cintaTransportadora;
     private int marcadosFinA;
@@ -6,7 +6,7 @@ public class OperarioInternoDepositar extends Thread {
     private boolean enOperacion;
     private int id;
 
-    public OperarioInternoDepositar(DepositoProduccion depositoProduccion, CintaTransportadora cintaTransportadora, int pid) {
+    public OperarioInternoProduccion_cinta(DepositoProduccion depositoProduccion, CintaTransportadora cintaTransportadora, int pid) {
         this.depositoProduccion = depositoProduccion;
         this.cintaTransportadora = cintaTransportadora;
         this.marcadosFinA = 0;
