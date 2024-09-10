@@ -23,19 +23,12 @@ public class DepositoDistribucion {
     }
 
     // Método sincronizado para retirar un producto del depósito
-    public synchronized Producto retirar() {
-        System.out.println("En método RETIRAR de depósito de distribución. Almacenados: " + productos.size());
-        while (productos.isEmpty()) {
-            try {
-                this.wait();  // Espera hasta que haya productos disponibles
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
-                System.out.println("Hilo interrumpido durante retirar en depósito de distribución");
-            }
-        }
+    public Producto retirar() {
+        //System.out.println("En método RETIRAR de depósito de distribución. Almacenados: " + productos.size());
+        
+        
         Producto producto = productos.remove(0);  // Retira el primer producto de la lista
         System.out.println("Producto retirado de depósito de distribución. Total almacenados: " + productos.size());
-        this.notifyAll();  // Notifica a los hilos en espera que hay espacio disponible
         return producto;
     }
 

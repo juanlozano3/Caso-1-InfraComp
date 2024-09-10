@@ -20,19 +20,24 @@ public class OperarioDistribuidor extends Thread {
         }
     }
 
-    public void extraer() {
-        Producto productoExtraido = depositoDistribucion.retirar();  // Retirar un producto del depósito
-        //Tamañp de la lista de productos en el depósito de distribución
-        System.out.println("Tamaño de la lista de productos en el depósito de distribución: " + depositoDistribucion.getAlmacenados());
-        if (productoExtraido.getTipo().equals(tipo)) {
-            System.out.println("Operario Distribuidor " + this.id + " comenzó a distribuir " + tipo);
-            System.out.println("Operario Distribuidor " + this.id + " retiró del depósito de distribución " + tipo);
+    public synchronized void extraer() {
+        while (depositoDistribucion.getProductos().isEmpty()) {
+            try {
+                System.out.println("Operario Distribuidor " + this.id + " esperando a que haya productos en el depósito de distribución");
+                this.wait();  // Espera hasta que haya productos disponibles
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+                System.out.println("Hilo interrumpido durante retirar en depósito de distribución");
+            }
         }
+        if (depositoDistribucion.getProductos().get(0).getTipo().equals("fin_" + tipo) || depositoDistribucion.getProductos().get(0).getTipo().equals(tipo)) {
+            Producto productoExtraido = depositoDistribucion.retirar();  // Retirar un producto del depósito
+            if (productoExtraido.getTipo().equals("fin_" + tipo)) {
+                enOperacion = false;
+                System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
+            }
+        }
+        notifyAll();
         
-        // Verificar si se ha encontrado el producto de terminación (FIN_A o FIN_B)
-        if (productoExtraido.getTipo().equals("fin_" + tipo)) {
-            enOperacion = false;
-            System.out.println("Operario Distribuidor " + this.id + " terminó de distribuir " + tipo);
-        }
     }
 }
